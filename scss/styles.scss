@@ -1,0 +1,733 @@
+@font-face {
+  font-family: 'Alcubierre';
+  src: url('../font/Alcubierre.eot');
+  src: url('../font/Alcubierre.eot?#iefix') format('embedded-opentype'),
+      url('../font/Alcubierre.woff2') format('woff2'),
+      url('../font/Alcubierre.woff') format('woff'),
+      url('../font/Alcubierre.ttf') format('truetype'),
+      url('../font/Alcubierre.svg#Alcubierre') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Jaapokki subtract';
+  src: url('../font/Jaapokkisubtract-Regular.eot');
+  src: url('../font/Jaapokkisubtract-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../font/Jaapokkisubtract-Regular.woff2') format('woff2'),
+      url('../font/Jaapokkisubtract-Regular.woff') format('woff'),
+      url('../font/Jaapokkisubtract-Regular.ttf') format('truetype'),
+      url('../font/Jaapokkisubtract-Regular.svg#Jaapokkisubtract-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// variables
+
+$red: #fd0303;
+$lightRed: lighten($red, 15%);
+$blue: #20d6d6;
+$lightBlue: lighten($blue, 30%);
+$offWhite: #e7e7e7;
+$black: #000000;
+$fontJ: 'Jaapokki subtract';
+$fontB: Alcubierre;
+
+// mixins
+
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+    -o-transform: $transforms;
+   -ms-transform: $transforms;
+-webkit-transform: $transforms;
+       transform: $transforms;
+}
+
+@mixin rotate($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+@mixin scale($scale) {
+  @include transform(scale($scale));
+} 
+
+@mixin translate($x, $y) {
+  @include transform(translate($x, $y));
+}
+
+@mixin transform-origin($origin) {
+  -moz-transform-origin: $origin;
+     -o-transform-origin: $origin;
+    -ms-transform-origin: $origin;
+-webkit-transform-origin: $origin;
+        transform-origin: $origin;
+}
+
+@mixin transition($transition...) {
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
+}
+
+@mixin flexbox {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+@mixin flex-justify-evenly {
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+}
+
+@mixin border {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+  }
+
+// general styles  
+
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  background-color: $offWhite;
+  font-family: $fontB;
+  color: $black;
+}
+
+section {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  h3 {
+    font-family: $fontJ;
+    text-transform: uppercase;
+    letter-spacing: .4rem;
+    font-size: 3rem;
+    line-height: 3rem;
+    color: lighten($red, 15%);
+    text-align: center;
+    @include transform(rotate(-90deg) translate(-50%, 0));
+    @include transform-origin(top left);
+    position: absolute;
+    width: 100vh;
+    top: 50%;
+    left: -.5%;
+  }
+}
+
+// header
+
+header {
+  background-color: $offWhite;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-bottom: 1px solid $blue;
+  #logo {
+    float: left;
+    padding: .5rem 1rem .5rem 1rem;
+  }
+  img {
+    height: 30px;
+    padding-top: .5rem;
+  }
+  #navigation {
+    list-style: none;
+    float: right;
+    padding: 1.2rem 1rem .8rem 1rem;
+  }
+  li {
+    display: inline-block;
+    margin: 0 1rem;
+  }
+  li a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: $fontJ; 
+    letter-spacing: .1rem;
+    color: $black; 
+    position: relative;
+    -webkit-transition: all ease-in-out 1s;
+    -o-transition: all ease-in-out 1s;
+    transition: all ease-in-out 1s;
+    &::before, &::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      display: block;
+      position: absolute;
+      opacity: 0;
+      @include transition(all ease-in-out .7s);
+    }
+    &::before {
+      top: 0;
+      left: -5%;
+      border-top: 2px solid $lightRed;
+      border-left: 2px solid $lightRed;
+    }
+    &::after {
+      right: -3%;
+      bottom: 10%;
+      border-bottom: 2px solid $blue;
+      border-right: 2px solid $blue;
+    }    
+    &:hover {
+      &::before {
+        top: -40%;
+        left: -10%;
+        opacity: 1;
+      }
+      &::after {
+        right: -10%;
+        bottom: -15%;
+        opacity: 1;
+      }
+    }
+  }
+  .scroll {
+    clear: both;
+    width: 0%;
+    height: 2px;
+    background-color: $lightRed;
+    bottom: 2px;
+    margin-bottom: -2px;
+  }
+  .active {
+    color: $lightRed;
+  }
+}
+
+@media (max-width: 820px) {
+  #navigation {
+    li {
+      margin: 0 .3rem;
+    }
+    a {
+    font-size: .8rem;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  nav {
+    display: none;
+  }
+  h3 {
+    display: none;
+  }
+  #logo {
+    float: none;
+    width: 100%;
+  }
+  h1 {
+    text-align: center;
+  }
+}
+
+// section hero
+
+#hero {
+  clear: both;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  #bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('../img/59907.png');
+    background-size: cover;
+
+  }
+  img {
+    width: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
+    position: absolute; 
+  }
+  #heroText {
+    position: absolute; 
+    padding-top: 4rem; 
+    width: 25%;
+    right: 5%;
+    top: 50%;
+    @include transform(translateY(-50%));
+  }
+  h2 {
+    text-transform: uppercase;
+    font-family: $fontJ;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    position: relative;
+    &::before, &::after {
+      @include border;
+    }
+    &::before {
+      border-top: 2px solid $lightRed;
+      border-left:  2px solid $lightRed;
+      left: -1rem;
+      top: -.5rem;
+    }
+    &::after {
+      border-bottom: 2px solid $lightRed;
+      border-right:  2px solid $lightRed;
+      right: -1rem;
+      bottom: -.5rem;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  #hero h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 650px) {
+  #hero img {
+    display: none;
+  }
+  #hero #heroText {
+    width: 35%;
+    right: 10%; 
+  }
+}
+
+@media (max-width: 530px) {
+  #hero h2 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 450px) {
+  #hero h2 {
+    font-size: 1.3rem;
+  }
+  #hero #heroText {
+    width: 35%;
+    right: 12%; 
+  }
+}
+
+// section about
+
+#about {
+  height: 100%;
+  position: static;
+  #about-content {
+    width: 100%;
+    height: 100;
+    position: relative;
+  }
+  .content {
+    padding: 0 7rem;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    .quote {
+      position: absolute;
+      width: 40%;
+      padding: 2rem;      
+      top: 50%;
+      @include transform(translateY(-50%));
+      left: 4rem;
+    }
+    blockquote {
+      position: relative;
+      padding: 1rem;
+      font-size: 1.5rem;
+      width: 80%;
+      height: 100%;
+      margin: 1rem auto;
+      text-align: center;
+      &::before, &::after {
+        @include border;
+      }
+      &::before {
+        border-top: 2px solid $blue;
+        border-right:  2px solid $blue;
+        right: -1rem;
+        top: -.5rem;
+      }
+      &::after {
+        border-bottom: 2px solid $blue;
+        border-left:  2px solid $blue;
+        left: -1rem;
+        bottom: -.5rem;
+      }
+      p {
+        padding-top: .5rem;
+        &::before {
+        content: '"';
+        color: $blue;
+        display: block;
+        position: absolute;
+        font-family: $fontJ;
+        font-size: 5rem;
+        top: -1.5rem;
+        left: 0;
+      }
+    }
+    cite {
+      padding: 1.5rem;
+      font-weight: bold;
+    }
+  }
+    .text {
+      font-size: 1.5rem;
+      font-weight: 500;
+      width: 50%;
+      padding: 2rem;
+      text-transform: uppercase;
+      text-align: right;
+      margin-left: 50%;
+    }
+  }
+}
+@media (max-width: 1000px) {
+  #about .content {
+    padding: 1rem 3rem;
+  }
+}
+
+@media (max-width: 750px) {
+  #about .content .text,
+  #about .content .quote {
+    padding: .5rem;
+  }
+  #about .content .text {
+    font-size: 1.25rem;
+  }
+  #about .content blockquote {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #about .content {
+    padding: 1rem 2rem;
+  }
+  #about .content .text,
+  #about .content .quote {
+    width: 100%;
+    margin: 0;
+  }
+  #about .content .quote {
+    position: relative;
+    @include transform(translateY(0));
+    left: 0;
+    padding: 1rem 0;
+  }
+  #about .content blockquote {
+    width: 100%;
+  }
+  #about .content .text {
+    text-align: center;
+  }
+}
+
+// section services
+
+#services {
+  background-color: #c5caca;
+  #srvs {
+    width: 100%;
+    padding: 3rem 5rem;
+    @include flexbox();
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    @include flex-justify-evenly();
+  }
+  figure {
+    width: 30%;
+    text-align: center;
+    margin: 1rem;
+  }
+  img {
+    width: 50%;
+  }
+}
+
+@media (max-width: 1130px) {
+  #services #srvs {
+    padding: 2rem;
+  }
+  #services #srvs figure {
+    width: 45%;
+  }
+  #services #srvs figure img{
+    width: 40%;
+  }
+}
+
+@media (max-width: 710px) {
+  #services #srvs figure {
+    width: 40%;
+  }
+  #services #srvs figure img {
+    width: 30%
+  }
+}
+
+@media (max-width: 600px) {
+  #services #srvs {
+    padding: 1rem;
+  }
+  #services #srvs figure {
+    margin: .5rem;
+  }
+}
+
+@media (max-width: 450px) {
+  #services #srvs figure {
+    width: 100%;
+  }
+  #services #srvs figure img {
+    width: 30%
+  }
+}
+
+// section projects
+
+.container {
+  padding: 2rem 5rem;
+  @include flexbox();
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  @include flex-justify-evenly();
+  .project {
+    width: 30%;
+    height: 50vh;
+    margin: 1rem;
+    border: 2px solid $blue;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    @include transition(all 1s ease-in);
+    overflow: hidden;
+    &:hover {
+      @include scale(1.1);
+      .desc {
+        opacity: 1;
+      }
+      .title {
+        opacity: 0;
+      }
+    }
+  }
+  #one {
+    background-image: url('../img/project_1.jpg');
+  }
+  #two {
+    background-image: url('../img/project_2.jpg');
+  }  
+  #three {
+    background-image: url('../img/project_3.jpg');
+  } 
+  #four {
+    background-image: url('../img/project_4.jpg');
+  } 
+  #five {
+    background-image: url('../img/project_5.jpg');
+  } 
+  #six {
+    background-image: url('../img/project_6.jpg');
+  } 
+  p {
+    text-align: center;
+    padding: 3rem 0;
+    position: absolute;
+    max-height: 100%;
+    left: 50%;
+    top: 50%;
+    @include translate(-50%, -50%);
+    text-transform: uppercase;
+    background-color: rgba(255, 255, 255, .5);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .desc {    
+    opacity: 0;
+    @include transition(opacity 1s linear);
+  }
+  .title {
+    font-family: $fontJ;
+    color: $lightRed;  
+    @include transition(opacity 1s linear); 
+  }
+}
+
+@media (max-width: 1120px) {
+  #projects .project {
+    width: 45%;
+    margin: .5rem;
+  }
+}
+
+@media (max-width: 800px) {
+  #projects .project {
+    width: 80%;
+  }
+}
+
+@media (max-width: 500px) {
+  #projects .container {
+    padding: 2rem;
+  }
+  #projects .project {
+    width: 90%;
+    height: 35vh;
+  }
+}
+
+// section contacts
+
+#contacts {
+  background-image: url('../img/david.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: static;
+  #contacts-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+}
+form {
+  padding: 5rem 5rem;
+  text-align: center;
+  #name, #email, #msg {
+    width: 50%;
+    margin: .5rem 0;
+    padding: .5rem;
+    text-align: center;
+    font-family: $fontB;
+    text-transform: uppercase;    
+    background-color: rgba(255,255,255, 0);
+    border: 1px solid rgba(255,255,255, 0);
+    border-bottom: 1px solid $blue;
+    &:focus {
+      outline: none;
+    }
+    &placeholder {
+      text-transform: uppercase;      
+    }
+  }
+  button {
+    background-color: rgba(255,255,255, 0);
+    border: 1px solid $lightRed;
+    text-transform: uppercase;
+    font-family: $fontB;
+    font-size: 1rem;
+    padding: .4rem .5rem;
+    &:hover {
+    cursor: pointer;
+    color: $lightRed;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  #contacts {
+    #name, #email, #msg {
+      width: 75%;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  #contacts {
+    background-position: center right 35%;
+    #name, #email, #msg {
+      width: 95%;
+    }
+    
+  }
+}
+
+// footer
+
+footer {
+  @include flexbox();
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: $black;
+  color: $offWhite;
+  padding: 1rem;
+  address {
+    font-style: normal;
+  }
+  #cont {
+    a {
+      text-decoration: none;
+      color: $offWhite;
+    }
+  }
+  ul {
+    list-style: none;
+  }
+  li {
+    display: inline-block;  
+    a {
+      color: $offWhite;
+      font-size: 1.2rem;
+      padding: 0 .3rem;
+      @include transition(.5s all ease-in-out);
+      &:hover {
+        color: $lightRed;
+      }
+  }
+}
+}
+
+@media (max-width: 600px) {
+  footer {
+    font-size: .8rem;
+  }
+  footer li a {
+    font-size: 1rem;
+    padding: 0 .1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  footer {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+  }
+  footer address, 
+  footer #cont,
+  footer #sm {
+    padding: .3rem .2rem;
+  }
+}
